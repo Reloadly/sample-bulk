@@ -1,0 +1,42 @@
+version: '3.3'
+networks:
+  supernetwork:
+    driver: bridge
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: DockerFiles/Dockerfile
+    container_name: rbp_php
+    restart: always
+
+    volumes:
+      - ".:/var/www/html"
+      - "./etc/php/php.ini:/usr/local/etc/php/conf.d/custom.ini"
+    environment:
+      - "PHP_IDE_CONFIG=serverName=PHPSTORM_DOCKER"
+    networks:
+      - supernetwork
+    links:
+      - "mariadb:database"
+    ports:
+      - "80:80"
+
+  mariadb:
+    container_name: rbp_db
+    build:
+      context: etc/mariadb
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    volumes:
+      - ./volumes/mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root@rbpdb@123@A
+      MYSQL_DATABASE: db
+      MYSQL_USER: rbp_db_user
+      MYSQL_PASSWORD: rbp_db_user@rbpdb@123@A
+    networks:
+      - supernetwork
