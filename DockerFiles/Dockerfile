@@ -13,7 +13,7 @@ ENV APPLICATION_GROUP_ID "1000"
 ENV POST_DEPLOYMENT_SCRIPT /var/www/html/deploy-post-deployment.sh
 
 # Environment variables that cannot (yet?) be changed on runtime
-ENV NODE_VERSION=13.2.0
+ENV NODE_VERSION=14.17.0
 ENV GULP_VERSION=3.9.1
 ENV JSPM_VERSION=0.16.53
 ENV NVM_DIR=/usr/local/nvm
@@ -124,7 +124,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Install nodejs / npm via nvm
 RUN mkdir -p $NVM_DIR \
-    && curl https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
+    && curl https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
